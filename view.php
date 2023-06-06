@@ -1,105 +1,70 @@
 <!DOCTYPE html>
-<html>
-<head> 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
-	
- </head>
- 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-..." crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 <body>
-      <div class="container">
-          <div class="row"> 
-          	<div class="col">
-          		<table class='table table-border'>;
-          			<tr><th>regno</th>
-          				<th>name</th>
-          				<th>address</address></th>
-          				<th>update</th>
-          				<th>delete</th>
-          				
-          			</tr>
- <?php
- 	include"configfd.php";
- 	$query2="select*from sample";
- 	$result=mysqli_query($con,$query2);
- 	while($row=mysqli_fetch_array($result))
- 	{
- 		$id=$row[1];
- 		echo"<tr><td>$row[1]</td>";
-     		echo"<td>$row[0]</td>";
-     			 		echo"<td>$row[7]</td>";
+    <div class="container mt-5">
+        <h2>Users Data</h2>
+        <a href="add.php" class="btn btn-primary mb-3" > ADD DATA </a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Password</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include"config.php";
 
-     			 			echo"<td><button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#update'>update</button>
-     			 			</td>";
-     			 			echo"<td><a class='btn btn-danger' href='del.php?id=$id' name='del'>
-     			 			Delete</a></td></tr>";
+              
+                $sql = "SELECT * FROM `crud-php`"; 
 
+                // Execute the query
+                $result = $conn->query($sql);
 
- 	}
- 	?>
-          			
-          		</table>
+                // Check if there are any rows returned
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row["id"] . "</td>";
+                        echo "<td>" . $row["username"] . "</td>";
+                        echo "<td>" . $row["email"] . "</td>";
+                        echo "<td>" . $row["phone"] . "</td>";
+                        echo "<td>" . $row["password"] . "</td>";
+                        echo '<td><a class="btn btn-info" href="update.php?id=' . $row['id'] . '">Edit</a></td>';
+                        echo '<td><a class="btn btn-danger" href="delete.php?id=' . $row['id'] . '">Delete</a></td>';
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No results found.</td></tr>";
+                }
 
-              <div class="modal fade" id="update">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h3>this is header</h3>
-                    </div>
-                    <form action="update.php" method="post">
-                      <div class="modal-body">
-       <div class="form-group">
-        <label class="from-lable">NAME</label>
-        <input type="text" class="form-control" name="ename" placeholder="enter your name">
-      </div>
-      <div class="form-group">
-      <label class="from-lable">Reg No</label>
-        <input type="text" class="form-control" name="regno" placeholder="enter your no" > 
-      </div>
-                        </div>
-                        <div class="modal-footer">
-                       <div class="form-group">
-        <input type="submit" class="btn btn-success" name="update" value="update">
-    
-        <input type="reset" class="btn btn-danger" name="submit" value="RESET" >
-      </div>
-                    
-                  
-                
-              </div>
-        
-      </div>
-      
+                // Close the connection
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
     </div>
-    
-  </div>
-</div>
-</div>
-</div>
-     
-          
-              					</div>
-                      </form>
-              				</div>
-              				
-              			</div>
-              			
-              		
-              	
-              </div>
-				
-			</div>
-			
-		</div>
-		
-	</div>
-      
-          		
-          	</div>
-          </div>
-        </div>
-      </body>
-      </html>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
